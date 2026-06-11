@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: sr-creation
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /opt/render/project/src/data/srcreation.json
+    disk:
+      name: db-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
