@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SR Creation – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f8f6;--sidebar:#0f0f0f;--sidebar-w:240px;
+  --white:#ffffff;--black:#0f0f0f;--gold:#b8922a;--gold-l:#f5e9cc;
+  --gray50:#f9f9f7;--gray100:#f0efeb;--gray200:#e0ddd8;--gray400:#9e9b94;--gray600:#6b6867;--gray800:#2d2c2a;
+  --blue:#1a6ef5;--blue-l:#e8f0fe;--green:#1a8a4a;--green-l:#e6f4ec;
+  --red:#d93025;--red-l:#fce8e6;--amber:#c77700;--amber-l:#fef7e0;
+  --border:1px solid var(--gray200);
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,0.08);
+  --font:'Inter',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--black);display:flex;height:100vh;overflow:hidden;font-size:14px}
+#sidebar{width:var(--sidebar-w);background:var(--sidebar);color:#fff;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar-brand{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-brand h1{font-size:18px;font-weight:700;letter-spacing:0.02em}
+.sidebar-brand h1 span{color:var(--gold)}
+.sidebar-brand p{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+.sidebar-nav{padding:12px 0;flex:1}
+.nav-section{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:16px 20px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);cursor:pointer;transition:all 0.15s;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:#fff}
+.nav-item.active{background:rgba(184,146,42,0.15);color:var(--gold);border-left-color:var(--gold)}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:0.8}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:rgba(255,255,255,0.4)}
+.sidebar-footer strong{display:block;color:rgba(255,255,255,0.8);font-size:13px}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{height:56px;background:var(--white);border-bottom:var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+#topbar h2{font-size:16px;font-weight:600;color:var(--black)}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all 0.15s;text-decoration:none}
+.btn-primary{background:var(--black);color:#fff}.btn-primary:hover{background:#333}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{opacity:0.9}
+.btn-outline{background:transparent;border:var(--border);color:var(--black)}.btn-outline:hover{background:var(--gray100)}
+.btn-danger{background:var(--red);color:#fff;font-size:12px;padding:5px 10px}
+.btn-sm{font-size:12px;padding:5px 10px}
+#content{flex:1;overflow-y:auto;padding:24px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--white);border:var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+.stat-card .label{font-size:12px;color:var(--gray600);font-weight:500;margin-bottom:6px}
+.stat-card .value{font-size:26px;font-weight:700;color:var(--black);line-height:1}
+.stat-card .sub{font-size:11px;color:var(--gray400);margin-top:5px}
+.stat-card.gold .value{color:var(--gold)}
+.stat-card.red .value{color:var(--red)}
+.table-card{background:var(--white);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:var(--border)}
+.table-header h3{font-size:14px;font-weight:600}
+.table-toolbar{display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:var(--border);background:var(--gray50)}
+.search-input{padding:7px 12px;border:var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;background:var(--white);width:220px;outline:none}
+.search-input:focus{border-color:var(--gold)}
+select.filter{padding:7px 10px;border:var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;background:var(--white);cursor:pointer;outline:none}
+table{width:100%;border-collapse:collapse}
+th{background:var(--gray50);padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:var(--gray600);text-transform:uppercase;letter-spacing:0.05em;border-bottom:var(--border);white-space:nowrap}
+td{padding:12px 16px;border-bottom:var(--border);font-size:13px;color:var(--black);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--gray50)}
+.table-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:var(--border);font-size:12px;color:var(--gray600)}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-new{background:#e8f0fe;color:#1a6ef5}
+.badge-pending{background:var(--amber-l);color:var(--amber)}
+.badge-in_progress,.badge-in_production{background:#e8f4fd;color:#0277bd}
+.badge-quoted{background:var(--gold-l);color:var(--gold)}
+.badge-completed,.badge-paid{background:var(--green-l);color:var(--green)}
+.badge-active{background:var(--green-l);color:var(--green)}
+.badge-inactive,.badge-cancelled{background:var(--gray100);color:var(--gray600)}
+.badge-unpaid{background:var(--red-l);color:var(--red)}
+.badge-partial{background:var(--amber-l);color:var(--amber)}
+.badge-low{background:var(--red-l);color:var(--red)}
+.badge-ok{background:var(--green-l);color:var(--green)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--white);border-radius:12px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:var(--border)}
+.modal-header h3{font-size:16px;font-weight:600}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:var(--gray400);line-height:1;padding:2px 6px}
+.modal-close:hover{color:var(--black)}
+.modal-body{padding:24px}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:var(--border)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:12px;font-weight:600;color:var(--gray600)}
+.form-group input,.form-group select,.form-group textarea{padding:8px 12px;border:var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;outline:none;transition:border-color 0.15s;background:var(--white)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group textarea{resize:vertical;min-height:80px}
+#login-page{position:fixed;inset:0;background:var(--black);display:flex;align-items:center;justify-content:center;z-index:2000}
+.login-box{background:var(--white);border-radius:12px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.login-logo{font-size:22px;font-weight:700;margin-bottom:6px}
+.login-logo span{color:var(--gold)}
+.login-sub{font-size:13px;color:var(--gray600);margin-bottom:28px}
+.login-box .form-group{margin-bottom:14px}
+.login-error{background:var(--red-l);color:var(--red);padding:8px 12px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;display:none}
+.page{display:none}.page.active{display:block}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.action-btns{display:flex;gap:6px}
+.empty-state{padding:48px;text-align:center;color:var(--gray400);font-size:13px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--black);color:#fff;padding:12px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:9999;transform:translateY(100px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:320px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:var(--green)}
+#toast.error{background:var(--red)}
+</style>
+</head>
+<body>
+<div id="login-page">
+  <div class="login-box">
+    <div class="login-logo">SR <span>Creation</span></div>
+    <p class="login-sub">Admin Portal — Sign in to continue</p>
+    <div id="login-error" class="login-error"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="login-email" placeholder="admin@srcreation.in"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="login-password" placeholder="Password"></div>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px;justify-content:center;padding:10px" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
+<div id="sidebar">
+  <div class="sidebar-brand"><h1>SR <span>Creation</span></h1><p>Admin Portal</p></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="navigate('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+    <div class="nav-section">Operations</div>
+    <div class="nav-item" onclick="navigate('inquiries')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Inquiries</div>
+    <div class="nav-item" onclick="navigate('orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Orders</div>
+    <div class="nav-section">Catalog</div>
+    <div class="nav-item" onclick="navigate('products')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Products</div>
+    <div class="nav-item" onclick="navigate('inventory')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Inventory</div>
+    <div class="nav-section">Settings</div>
+    <div class="nav-item" onclick="navigate('users')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Admin Users</div>
+  </nav>
+  <div class="sidebar-footer">
+    <strong id="admin-name">—</strong>
+    <span id="admin-role" style="font-size:11px"></span><br>
+    <a href="#" onclick="logout()" style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:12px;margin-top:6px;display:inline-block">Sign out</a>
+  </div>
+</div>
+<div id="main">
+  <div id="topbar">
+    <h2 id="page-title">Dashboard</h2>
+    <div class="topbar-actions">
+      <button class="btn btn-outline btn-sm" onclick="window.open('/','_blank')">View Website</button>
+      <button class="btn btn-gold btn-sm" id="topbar-action-btn" onclick="openAddModal()" style="display:none">+ Add New</button>
+    </div>
+  </div>
+  <div id="content">
+    <div id="page-dashboard" class="page active">
+      <div class="stats-grid">
+        <div class="stat-card gold"><div class="label">Total Revenue</div><div class="value" id="d-revenue">—</div><div class="sub">Collected payments</div></div>
+        <div class="stat-card"><div class="label">Total Orders</div><div class="value" id="d-orders">—</div><div class="sub" id="d-orders-sub">—</div></div>
+        <div class="stat-card"><div class="label">New Inquiries</div><div class="value" id="d-inquiries">—</div><div class="sub">Awaiting response</div></div>
+        <div class="stat-card red"><div class="label">Low Stock Items</div><div class="value" id="d-lowstock">—</div><div class="sub">Need restocking</div></div>
+      </div>
+      <div class="two-col">
+        <div class="table-card">
+          <div class="table-header"><h3>Recent Orders</h3><button class="btn btn-outline btn-sm" onclick="navigate('orders')">View all</button></div>
+          <table><thead><tr><th>Order #</th><th>Client</th><th>Amount</th><th>Status</th></tr></thead><tbody id="d-orders-table"></tbody></table>
+        </div>
+        <div class="table-card">
+          <div class="table-header"><h3>Recent Inquiries</h3><button class="btn btn-outline btn-sm" onclick="navigate('inquiries')">View all</button></div>
+          <table><thead><tr><th>Name</th><th>Category</th><th>Status</th></tr></thead><tbody id="d-inquiries-table"></tbody></table>
+        </div>
+      </div>
+    </div>
+    <div id="page-inquiries" class="page">
+      <div class="table-card">
+        <div class="table-header"><h3>All Inquiries</h3><span id="inq-count" style="font-size:12px;color:var(--gray400)"></span></div>
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Search name, company, phone..." oninput="debounce(loadInquiries,400)()">
+          <select class="filter" onchange="loadInquiries()"><option value="">All Status</option><option value="new">New</option><option value="in_progress">In Progress</option><option value="quoted">Quoted</option><option value="completed">Completed</option></select>
+        </div>
+        <table><thead><tr><th>#</th><th>Name</th><th>Company</th><th>Phone</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="inq-table"></tbody></table>
+        <div class="table-footer"><span id="inq-info"></span></div>
+      </div>
+    </div>
+    <div id="page-orders" class="page">
+      <div class="table-card">
+        <div class="table-header"><h3>All Orders</h3><span id="ord-count" style="font-size:12px;color:var(--gray400)"></span></div>
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Search order #, client..." oninput="debounce(loadOrders,400)()">
+          <select class="filter" onchange="loadOrders()"><option value="">All Status</option><option value="pending">Pending</option><option value="in_production">In Production</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
+          <select class="filter" onchange="loadOrders()"><option value="">Payment: All</option><option value="unpaid">Unpaid</option><option value="partial">Partial</option><option value="paid">Paid</option></select>
+        </div>
+        <table><thead><tr><th>Order #</th><th>Client</th><th>Product</th><th>Qty</th><th>Amount</th><th>Status</th><th>Payment</th><th>Delivery</th><th>Actions</th></tr></thead><tbody id="ord-table"></tbody></table>
+        <div class="table-footer"><span id="ord-info"></span></div>
+      </div>
+    </div>
+    <div id="page-products" class="page">
+      <div class="table-card">
+        <div class="table-header"><h3>Product Catalog</h3></div>
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Search products..." oninput="debounce(loadProducts,400)()">
+          <select class="filter" onchange="loadProducts()"><option value="">All Categories</option><option>Formals</option><option>Womens Wear</option><option>Activewear</option><option>Ethnic Wear</option><option>Bottoms</option><option>T-Shirts</option><option>Kids Wear</option><option>Outerwear</option></select>
+        </div>
+        <table><thead><tr><th>Name</th><th>Category</th><th>Fabric</th><th>MOQ</th><th>Price/Unit</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="prod-table"></tbody></table>
+      </div>
+    </div>
+    <div id="page-inventory" class="page">
+      <div class="table-card">
+        <div class="table-header"><h3>Raw Material Inventory</h3></div>
+        <div class="table-toolbar">
+          <input class="search-input" placeholder="Search material, supplier..." oninput="debounce(loadInventory,400)()">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="low-stock-filter" onchange="loadInventory()"> Low stock only</label>
+        </div>
+        <table><thead><tr><th>Material</th><th>Category</th><th>Available</th><th>Min Stock</th><th>Unit</th><th>Supplier</th><th>Cost/Unit</th><th>Status</th><th>Actions</th></tr></thead><tbody id="inv-table"></tbody></table>
+      </div>
+    </div>
+    <div id="page-users" class="page">
+      <div class="table-card">
+        <div class="table-header"><h3>Admin Users</h3></div>
+        <table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Created</th><th>Actions</th></tr></thead><tbody id="usr-table"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header"><h3 id="modal-title">Add</h3><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitModal()" id="modal-submit-btn">Save</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+const API='';let token=localStorage.getItem('src_token');let currentAdmin=null;let modalAction=null;let modalId=null;let debounceTimers={};
+function debounce(fn,delay){return function(){clearTimeout(debounceTimers[fn]);debounceTimers[fn]=setTimeout(()=>fn(),delay);}}
+async function api(method,path,body){const opts={method,headers:{'Content-Type':'application/json'}};if(token)opts.headers['Authorization']='Bearer '+token;if(body)opts.body=JSON.stringify(body);const res=await fetch(API+path,opts);const data=await res.json();if(!res.ok)throw new Error(data.error||'Request failed');return data;}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;setTimeout(()=>t.className='',3000);}
+function fmt(n){return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n||0);}
+function fmtDate(d){return d?new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';}
+function badge(status){return `<span class="badge badge-${status?.toLowerCase().replace(' ','_')||'pending'}">${status||'—'}</span>`;}
+async function doLogin(){const email=document.getElementById('login-email').value;const password=document.getElementById('login-password').value;const errEl=document.getElementById('login-error');try{const data=await api('POST','/api/auth/login',{email,password});token=data.token;localStorage.setItem('src_token',token);currentAdmin=data.admin;initApp();}catch(e){errEl.style.display='block';errEl.textContent=e.message;}}
+document.addEventListener('keydown',e=>{if(document.getElementById('login-page').style.display!=='none'&&e.key==='Enter')doLogin();});
+function logout(){localStorage.removeItem('src_token');token=null;document.getElementById('login-page').style.display='flex';document.getElementById('sidebar').style.display='none';document.getElementById('main').style.display='none';}
+function initApp(){document.getElementById('login-page').style.display='none';document.getElementById('sidebar').style.display='flex';document.getElementById('main').style.display='flex';document.getElementById('admin-name').textContent=currentAdmin.name;document.getElementById('admin-role').textContent=currentAdmin.role;navigate('dashboard');}
+async function checkAuth(){if(!token){return;}try{currentAdmin=await api('GET','/api/auth/me');initApp();}catch{logout();}}
+const pageTitles={dashboard:'Dashboard',inquiries:'Inquiries',orders:'Orders',products:'Products',inventory:'Inventory',users:'Admin Users'};
+const pageLoaders={dashboard:loadDashboard,inquiries:loadInquiries,orders:loadOrders,products:loadProducts,inventory:loadInventory,users:loadUsers};
+function navigate(page){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')?.includes(page))n.classList.add('active');});document.getElementById('page-title').textContent=pageTitles[page];const addBtn=document.getElementById('topbar-action-btn');addBtn.style.display=['inquiries','dashboard'].includes(page)?'none':'inline-flex';if(pageLoaders[page])pageLoaders[page]();}
+function openAddModal(){const active=document.querySelector('.page.active')?.id?.replace('page-','');if(active==='orders')openOrderModal();else if(active==='products')openProductModal();else if(active==='inventory')openInventoryModal();else if(active==='users')openUserModal();}
+async function loadDashboard(){try{const d=await api('GET','/api/dashboard/stats');document.getElementById('d-revenue').textContent=fmt(d.revenue.collected);document.getElementById('d-orders').textContent=d.orders.total;document.getElementById('d-orders-sub').textContent=`${d.orders.in_production} in production`;document.getElementById('d-inquiries').textContent=d.inquiries.new;document.getElementById('d-lowstock').textContent=d.inventory.low_stock;document.getElementById('d-orders-table').innerHTML=d.recentOrders.map(o=>`<tr><td><b>${o.order_number}</b></td><td>${o.client_name}</td><td>${fmt(o.total_amount)}</td><td>${badge(o.status)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty-state">No orders yet</td></tr>';document.getElementById('d-inquiries-table').innerHTML=d.recentInquiries.map(i=>`<tr><td>${i.name}</td><td>${i.category||'—'}</td><td>${badge(i.status)}</td></tr>`).join('')||'<tr><td colspan="3" class="empty-state">No inquiries yet</td></tr>';}catch(e){showToast(e.message,'error');}}
+async function loadInquiries(){const search=document.querySelector('#page-inquiries .search-input')?.value||'';const status=document.querySelector('#page-inquiries .filter')?.value||'';try{const d=await api('GET',`/api/inquiries?search=${encodeURIComponent(search)}&status=${status}`);document.getElementById('inq-count').textContent=`${d.total} total`;document.getElementById('inq-info').textContent=`Showing ${d.inquiries.length} of ${d.total}`;document.getElementById('inq-table').innerHTML=d.inquiries.map(i=>`<tr><td>${i.id}</td><td><b>${i.name}</b></td><td>${i.company||'—'}</td><td>${i.phone}</td><td>${i.category||'—'}</td><td>${badge(i.status)}</td><td>${fmtDate(i.created_at)}</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="viewInquiry(${i.id})">View</button><button class="btn btn-danger btn-sm" onclick="deleteItem('inquiries',${i.id})">Del</button></div></td></tr>`).join('')||'<tr><td colspan="8" class="empty-state">No inquiries found</td></tr>';}catch(e){showToast(e.message,'error');}}
+async function viewInquiry(id){const i=await api('GET',`/api/inquiries/${id}`);modalAction='update-inquiry';modalId=id;document.getElementById('modal-title').textContent='Inquiry #'+id;document.getElementById('modal-body').innerHTML=`<div style="margin-bottom:16px;padding:14px;background:var(--gray50);border-radius:var(--radius);font-size:13px;line-height:1.9"><b>${i.name}</b>${i.company?' · '+i.company:''}<br>📞 ${i.phone}${i.email?' · '+i.email:''}<br>Category: ${i.category||'—'}<br>Submitted: ${fmtDate(i.created_at)}</div><div style="margin-bottom:16px;padding:14px;background:var(--blue-l);border-radius:var(--radius);font-size:13px;color:#333">${i.message||'No message'}</div><div class="form-grid"><div class="form-group"><label>Status</label><select id="inq-status"><option value="new" ${i.status==='new'?'selected':''}>New</option><option value="in_progress" ${i.status==='in_progress'?'selected':''}>In Progress</option><option value="quoted" ${i.status==='quoted'?'selected':''}>Quoted</option><option value="completed" ${i.status==='completed'?'selected':''}>Completed</option></select></div><div class="form-group full"><label>Internal Notes</label><textarea id="inq-notes">${i.notes||''}</textarea></div></div>`;document.getElementById('modal-submit-btn').textContent='Update';document.getElementById('modal').style.display='flex';}
+async function loadOrders(){const search=document.querySelector('#page-orders .search-input')?.value||'';const filters=document.querySelectorAll('#page-orders .filter');const status=filters[0]?.value||'';const payment=filters[1]?.value||'';try{const d=await api('GET',`/api/orders?search=${encodeURIComponent(search)}&status=${status}&payment_status=${payment}`);document.getElementById('ord-count').textContent=`${d.total} total`;document.getElementById('ord-info').textContent=`Showing ${d.orders.length} of ${d.total}`;document.getElementById('ord-table').innerHTML=d.orders.map(o=>`<tr><td><b>${o.order_number}</b></td><td>${o.client_name}${o.client_company?'<br><span style="color:var(--gray400);font-size:11px">'+o.client_company+'</span>':''}</td><td>${o.product_name}</td><td>${o.quantity.toLocaleString()}</td><td>${fmt(o.total_amount)}</td><td>${badge(o.status)}</td><td>${badge(o.payment_status)}</td><td>${fmtDate(o.delivery_date)}</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editOrder(${o.id})">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteItem('orders',${o.id})">Del</button></div></td></tr>`).join('')||'<tr><td colspan="9" class="empty-state">No orders found</td></tr>';}catch(e){showToast(e.message,'error');}}
+function openOrderModal(data){modalAction=data?'edit-order':'add-order';modalId=data?.id;document.getElementById('modal-title').textContent=data?'Edit Order':'New Order';document.getElementById('modal-body').innerHTML=`<div class="form-grid"><div class="form-group"><label>Client Name *</label><input id="o-cname" value="${data?.client_name||''}"></div><div class="form-group"><label>Company</label><input id="o-ccompany" value="${data?.client_company||''}"></div><div class="form-group"><label>Phone *</label><input id="o-cphone" value="${data?.client_phone||''}"></div><div class="form-group"><label>Email</label><input id="o-cemail" value="${data?.client_email||''}"></div><div class="form-group"><label>Product Name *</label><input id="o-product" value="${data?.product_name||''}"></div><div class="form-group"><label>Category *</label><select id="o-cat">${['Formals','Womens Wear','Activewear','Ethnic Wear','Bottoms','T-Shirts','Kids Wear','Outerwear'].map(c=>`<option ${data?.category===c?'selected':''}>${c}</option>`).join('')}</select></div><div class="form-group"><label>Quantity *</label><input type="number" id="o-qty" value="${data?.quantity||''}"></div><div class="form-group"><label>Price/Unit (₹)</label><input type="number" id="o-price" value="${data?.price_per_unit||''}"></div><div class="form-group"><label>Fabric</label><input id="o-fabric" value="${data?.fabric||''}"></div><div class="form-group"><label>Delivery Date</label><input type="date" id="o-delivery" value="${data?.delivery_date?.slice(0,10)||''}"></div>${data?`<div class="form-group"><label>Status</label><select id="o-status">${['pending','in_production','completed','cancelled'].map(s=>`<option value="${s}" ${data.status===s?'selected':''}>${s}</option>`).join('')}</select></div><div class="form-group"><label>Payment</label><select id="o-payment">${['unpaid','partial','paid'].map(s=>`<option value="${s}" ${data.payment_status===s?'selected':''}>${s}</option>`).join('')}</select></div>`:''}<div class="form-group full"><label>Special Instructions</label><textarea id="o-notes">${data?.special_instructions||''}</textarea></div></div>`;document.getElementById('modal-submit-btn').textContent=data?'Update':'Create Order';document.getElementById('modal').style.display='flex';}
+async function editOrder(id){const o=await api('GET',`/api/orders/${id}`);openOrderModal(o);}
+async function loadProducts(){const search=document.querySelector('#page-products .search-input')?.value||'';const cat=document.querySelector('#page-products .filter')?.value||'';try{const products=await api('GET',`/api/products/all?search=${encodeURIComponent(search)}&category=${cat}`);document.getElementById('prod-table').innerHTML=products.map(p=>`<tr><td><b>${p.name}</b></td><td>${p.category}</td><td>${p.fabric||'—'}</td><td>${p.moq}</td><td>${p.price_per_unit?'₹'+p.price_per_unit:'—'}</td><td>${p.stock_available}</td><td>${badge(p.status)}</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editProduct(${p.id})">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteItem('products',${p.id})">Del</button></div></td></tr>`).join('')||'<tr><td colspan="8" class="empty-state">No products found</td></tr>';}catch(e){showToast(e.message,'error');}}
+function openProductModal(data){modalAction=data?'edit-product':'add-product';modalId=data?.id;document.getElementById('modal-title').textContent=data?'Edit Product':'Add Product';document.getElementById('modal-body').innerHTML=`<div class="form-grid"><div class="form-group"><label>Product Name *</label><input id="p-name" value="${data?.name||''}"></div><div class="form-group"><label>Category *</label><select id="p-cat">${['Formals','Womens Wear','Activewear','Ethnic Wear','Bottoms','T-Shirts','Kids Wear','Outerwear'].map(c=>`<option ${data?.category===c?'selected':''}>${c}</option>`).join('')}</select></div><div class="form-group"><label>Fabric</label><input id="p-fabric" value="${data?.fabric||''}"></div><div class="form-group"><label>MOQ</label><input type="number" id="p-moq" value="${data?.moq||50}"></div><div class="form-group"><label>Price/Unit (₹)</label><input type="number" id="p-price" value="${data?.price_per_unit||''}"></div><div class="form-group"><label>Stock Available</label><input type="number" id="p-stock" value="${data?.stock_available||0}"></div>${data?`<div class="form-group"><label>Status</label><select id="p-status"><option value="active" ${data.status==='active'?'selected':''}>Active</option><option value="inactive" ${data.status==='inactive'?'selected':''}>Inactive</option></select></div>`:''}<div class="form-group full"><label>Description</label><textarea id="p-desc">${data?.description||''}</textarea></div></div>`;document.getElementById('modal-submit-btn').textContent=data?'Update':'Add Product';document.getElementById('modal').style.display='flex';}
+async function editProduct(id){const p=await api('GET',`/api/products/${id}`);openProductModal(p);}
+async function loadInventory(){const search=document.querySelector('#page-inventory .search-input')?.value||'';const lowStock=document.getElementById('low-stock-filter')?.checked;try{const items=await api('GET',`/api/inventory?search=${encodeURIComponent(search)}&low_stock=${lowStock}`);document.getElementById('inv-table').innerHTML=items.map(i=>{const isLow=i.quantity_available<=i.minimum_stock;return`<tr><td><b>${i.material_name}</b></td><td>${i.category}</td><td style="${isLow?'color:var(--red);font-weight:600':''}">${i.quantity_available}</td><td>${i.minimum_stock}</td><td>${i.unit}</td><td>${i.supplier||'—'}</td><td>${i.cost_per_unit?'₹'+i.cost_per_unit:'—'}</td><td>${isLow?badge('low'):badge('ok')}</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editInventory(${i.id})">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteItem('inventory',${i.id})">Del</button></div></td></tr>`;}).join('')||'<tr><td colspan="9" class="empty-state">No inventory items</td></tr>';}catch(e){showToast(e.message,'error');}}
+function openInventoryModal(data){modalAction=data?'edit-inventory':'add-inventory';modalId=data?.id;document.getElementById('modal-title').textContent=data?'Edit Material':'Add Material';document.getElementById('modal-body').innerHTML=`<div class="form-grid"><div class="form-group"><label>Material Name *</label><input id="inv-name" value="${data?.material_name||''}"></div><div class="form-group"><label>Category *</label><select id="inv-cat">${['Natural','Synthetic','Semi-synthetic','Accessories'].map(c=>`<option ${data?.category===c?'selected':''}>${c}</option>`).join('')}</select></div><div class="form-group"><label>Unit</label><select id="inv-unit">${['meters','kg','pieces','spools','rolls'].map(u=>`<option ${data?.unit===u?'selected':''}>${u}</option>`).join('')}</select></div><div class="form-group"><label>Quantity Available</label><input type="number" id="inv-qty" value="${data?.quantity_available||0}"></div><div class="form-group"><label>Minimum Stock</label><input type="number" id="inv-min" value="${data?.minimum_stock||100}"></div><div class="form-group"><label>Cost/Unit (₹)</label><input type="number" id="inv-cost" value="${data?.cost_per_unit||''}"></div><div class="form-group full"><label>Supplier</label><input id="inv-supplier" value="${data?.supplier||''}"></div></div>`;document.getElementById('modal-submit-btn').textContent=data?'Update':'Add Material';document.getElementById('modal').style.display='flex';}
+async function editInventory(id){const i=await api('GET',`/api/inventory/${id}`);openInventoryModal(i);}
+async function loadUsers(){try{const users=await api('GET','/api/admins');document.getElementById('usr-table').innerHTML=users.map(u=>`<tr><td><b>${u.name}</b></td><td>${u.email}</td><td><span class="badge ${u.role==='superadmin'?'badge-quoted':'badge-active'}">${u.role}</span></td><td>${fmtDate(u.created_at)}</td><td><button class="btn btn-danger btn-sm" onclick="deleteItem('admins',${u.id})">Remove</button></td></tr>`).join('');}catch(e){showToast(e.message,'error');}}
+function openUserModal(){modalAction='add-user';document.getElementById('modal-title').textContent='Add Admin User';document.getElementById('modal-body').innerHTML=`<div class="form-grid"><div class="form-group"><label>Name *</label><input id="u-name"></div><div class="form-group"><label>Email *</label><input type="email" id="u-email"></div><div class="form-group"><label>Password *</label><input type="password" id="u-pass"></div><div class="form-group"><label>Role</label><select id="u-role"><option value="admin">Admin</option><option value="superadmin">Superadmin</option></select></div></div>`;document.getElementById('modal-submit-btn').textContent='Create User';document.getElementById('modal').style.display='flex';}
+async function submitModal(){try{if(modalAction==='update-inquiry'){await api('PUT',`/api/inquiries/${modalId}`,{status:document.getElementById('inq-status').value,notes:document.getElementById('inq-notes').value});showToast('Inquiry updated');closeModal();loadInquiries();}else if(modalAction==='add-order'){await api('POST','/api/orders',getOrderData());showToast('Order created');closeModal();loadOrders();}else if(modalAction==='edit-order'){await api('PUT',`/api/orders/${modalId}`,getOrderData(true));showToast('Order updated');closeModal();loadOrders();}else if(modalAction==='add-product'){await api('POST','/api/products',getProductData());showToast('Product added');closeModal();loadProducts();}else if(modalAction==='edit-product'){await api('PUT',`/api/products/${modalId}`,getProductData(true));showToast('Product updated');closeModal();loadProducts();}else if(modalAction==='add-inventory'){await api('POST','/api/inventory',getInvData());showToast('Material added');closeModal();loadInventory();}else if(modalAction==='edit-inventory'){await api('PUT',`/api/inventory/${modalId}`,getInvData());showToast('Material updated');closeModal();loadInventory();}else if(modalAction==='add-user'){await api('POST','/api/admins',{name:document.getElementById('u-name').value,email:document.getElementById('u-email').value,password:document.getElementById('u-pass').value,role:document.getElementById('u-role').value});showToast('User created');closeModal();loadUsers();}}catch(e){showToast(e.message,'error');}}
+function getOrderData(edit){const d={client_name:document.getElementById('o-cname')?.value,client_company:document.getElementById('o-ccompany')?.value,client_phone:document.getElementById('o-cphone')?.value,client_email:document.getElementById('o-cemail')?.value,product_name:document.getElementById('o-product')?.value,category:document.getElementById('o-cat')?.value,quantity:+document.getElementById('o-qty')?.value,price_per_unit:+document.getElementById('o-price')?.value,fabric:document.getElementById('o-fabric')?.value,delivery_date:document.getElementById('o-delivery')?.value,special_instructions:document.getElementById('o-notes')?.value};if(edit){d.status=document.getElementById('o-status')?.value;d.payment_status=document.getElementById('o-payment')?.value;}return d;}
+function getProductData(edit){const d={name:document.getElementById('p-name').value,category:document.getElementById('p-cat').value,fabric:document.getElementById('p-fabric').value,moq:+document.getElementById('p-moq').value,price_per_unit:+document.getElementById('p-price').value,stock_available:+document.getElementById('p-stock').value,description:document.getElementById('p-desc').value};if(edit)d.status=document.getElementById('p-status')?.value;return d;}
+function getInvData(){return{material_name:document.getElementById('inv-name').value,category:document.getElementById('inv-cat').value,unit:document.getElementById('inv-unit').value,quantity_available:+document.getElementById('inv-qty').value,minimum_stock:+document.getElementById('inv-min').value,cost_per_unit:+document.getElementById('inv-cost').value,supplier:document.getElementById('inv-supplier').value};}
+async function deleteItem(entity,id){if(!confirm('Are you sure?'))return;try{await api('DELETE',`/api/${entity}/${id}`);showToast('Deleted successfully');if(entity==='orders')loadOrders();else if(entity==='inquiries')loadInquiries();else if(entity==='products')loadProducts();else if(entity==='inventory')loadInventory();else if(entity==='admins')loadUsers();}catch(e){showToast(e.message,'error');}}
+function closeModal(){document.getElementById('modal').style.display='none';}
+if(token){checkAuth();}else{document.getElementById('sidebar').style.display='none';document.getElementById('main').style.display='none';}
+</script>
+</body>
+</html>
