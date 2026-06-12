@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SR Creation – Premium Clothing Manufacturer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#0f0f0f;--white:#fafafa;--cream:#f5f1ea;--gold:#b8922a;--gold-l:#e8c97a;--gray:#6b6b6b;--light:#e0ddd8;--font-d:'Playfair Display',serif;--font-b:'Inter',sans-serif;}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--white);color:var(--black);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(250,249,247,0.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--light);transition:box-shadow 0.3s}
+nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.nav-logo{font-family:var(--font-d);font-size:1.5rem;font-weight:700;color:var(--black);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--black)}
+.nav-cta{background:var(--black)!important;color:var(--white)!important;padding:0.5rem 1.3rem;border-radius:2px}
+.nav-cta:hover{background:var(--gold)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{width:22px;height:2px;background:var(--black);display:block;transition:all 0.3s}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:68px}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:5rem 4rem 5rem 5rem;background:var(--cream)}
+.eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem}
+.hero-title{font-family:var(--font-d);font-size:4rem;line-height:1.08;font-weight:700;margin-bottom:1.5rem}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:0.96rem;line-height:1.8;color:var(--gray);max-width:420px;margin-bottom:2.4rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-p{background:var(--black);color:var(--white);padding:0.85rem 2rem;border:none;border-radius:2px;font-family:var(--font-b);font-size:0.82rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.2s}
+.btn-p:hover{background:var(--gold)}
+.btn-o{background:transparent;color:var(--black);padding:0.85rem 2rem;border:1.5px solid var(--black);border-radius:2px;font-family:var(--font-b);font-size:0.82rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-o:hover{background:var(--black);color:var(--white)}
+.hero-right{background:var(--black);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;min-height:500px}
+.hero-bg-text{font-family:var(--font-d);font-size:16rem;font-weight:700;color:rgba(255,255,255,0.03);line-height:1;user-select:none;position:absolute}
+.hero-center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2rem;padding:3rem}
+.gold-line{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hero-tagline{font-family:var(--font-d);font-size:1.4rem;font-style:italic;color:rgba(255,255,255,0.6);text-align:center;max-width:280px;line-height:1.5}
+.hero-badge{border:1px solid rgba(184,146,42,0.4);border-radius:50%;width:100px;height:100px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;position:absolute;bottom:2.5rem;right:2.5rem}
+.hero-badge p{font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-l);line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--light);border-bottom:1px solid var(--light)}
+.stat{padding:1.8rem 2rem;border-right:1px solid var(--light);text-align:center}
+.stat:last-child{border-right:none}
+.stat-n{font-family:var(--font-d);font-size:2.2rem;font-weight:700;display:block}
+.stat-l{font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray);margin-top:3px}
+.sec{padding:5.5rem 5rem}
+.sec-alt{background:var(--cream)}
+.sec-dark{background:var(--black);color:var(--white)}
+.sec-label{font-size:0.68rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.sec-title{font-family:var(--font-d);font-size:2.4rem;font-weight:700;line-height:1.18;margin-bottom:1rem}
+.sec-dark .sec-title{color:var(--white)}
+.sec-desc{font-size:0.94rem;line-height:1.8;color:var(--gray);max-width:520px}
+.sec-dark .sec-desc{color:rgba(255,255,255,0.5)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:var(--light);border:1.5px solid var(--light);margin-top:3rem}
+.svc-card{background:var(--white);padding:2.2rem 1.8rem;transition:background 0.2s;cursor:default}
+.svc-card:hover{background:var(--cream)}
+.svc-num{font-size:0.67rem;font-weight:600;letter-spacing:0.18em;color:var(--gold);margin-bottom:0.7rem}
+.svc-name{font-family:var(--font-d);font-size:1.2rem;font-weight:700;margin-bottom:0.6rem}
+.svc-text{font-size:0.86rem;line-height:1.75;color:var(--gray)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3.5rem;position:relative}
+.process-steps::before{content:'';position:absolute;top:26px;left:12%;right:12%;height:1px;background:rgba(184,146,42,0.25);z-index:0}
+.step{position:relative;z-index:1;padding:0 1.2rem}
+.step-c{width:52px;height:52px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;background:var(--black);font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--gold)}
+.step-t{font-family:var(--font-d);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem}
+.step-d{font-size:0.83rem;line-height:1.7;color:rgba(255,255,255,0.42)}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.8rem}
+.cat-card{background:var(--white);border:1px solid var(--light);padding:1.8rem 1.4rem;border-radius:2px;text-align:center;transition:border-color 0.2s,transform 0.2s;cursor:default}
+.cat-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.cat-icon{font-size:2rem;margin-bottom:0.9rem;display:block}
+.cat-name{font-family:var(--font-d);font-size:1rem;font-weight:700;margin-bottom:0.3rem}
+.cat-note{font-size:0.75rem;color:var(--gray)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.why-points{margin-top:2.2rem;display:flex;flex-direction:column;gap:1.4rem}
+.why-pt{display:flex;gap:1rem;align-items:flex-start}
+.why-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px}
+.why-pt-t{font-weight:600;font-size:0.92rem;margin-bottom:0.25rem}
+.why-pt-d{font-size:0.85rem;color:var(--gray);line-height:1.7}
+.why-visual{background:var(--cream);border:1px solid var(--light);padding:2.8rem}
+.why-quote{font-family:var(--font-d);font-size:1.4rem;line-height:1.55;font-style:italic}
+.why-cite{margin-top:1.4rem;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:0;margin-top:2.2rem}
+.c-info-item{display:flex;flex-direction:column;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.86rem;color:rgba(255,255,255,0.5)}
+.c-info-item strong{color:var(--white);font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.2rem}
+.form-wrap{display:flex;flex-direction:column;gap:0.9rem;margin-top:0.5rem}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem}
+.fg{display:flex;flex-direction:column;gap:0.4rem}
+.fg label{font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.42)}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--white);padding:0.72rem 1rem;border-radius:2px;font-family:var(--font-b);font-size:0.88rem;outline:none;transition:border-color 0.2s;width:100%}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,0.22)}
+.fg input:focus,.fg textarea:focus{border-color:var(--gold)}
+.fg select option{background:#1a1a1a}
+.fg textarea{resize:vertical;min-height:90px}
+.form-msg{padding:10px 14px;border-radius:2px;font-size:0.84rem;text-align:center;display:none}
+.form-msg.success{background:rgba(26,138,74,0.2);color:#5dd98b;display:block}
+.form-msg.error{background:rgba(217,48,37,0.2);color:#f28b82;display:block}
+footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.06);padding:1.8rem 5rem;display:flex;align-items:center;justify-content:space-between;font-size:0.76rem;color:rgba(255,255,255,0.28)}
+footer a{color:rgba(255,255,255,0.28);text-decoration:none}
+footer a:hover{color:var(--gold)}
+@media(max-width:900px){
+  nav{padding:1rem 1.4rem}
+  .nav-links{display:none;position:fixed;top:56px;left:0;right:0;background:var(--white);flex-direction:column;padding:1rem 1.4rem;border-bottom:1px solid var(--light);gap:0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:0.7rem 0;border-bottom:1px solid var(--light);font-size:0.85rem}
+  .hamburger{display:flex}
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-left{padding:2.5rem 1.4rem}
+  .hero-title{font-size:2.5rem}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .sec{padding:3.5rem 1.4rem}
+  .svc-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:2rem}
+  .process-steps::before{display:none}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:1fr;gap:2.5rem}
+  .contact-grid{grid-template-columns:1fr;gap:2.5rem}
+  .form-row2{grid-template-columns:1fr}
+  footer{padding:1.4rem;flex-direction:column;gap:0.5rem;text-align:center}
+}
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <a href="#" class="nav-logo">SR <span>Creation</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<section class="hero">
+  <div class="hero-left">
+    <p class="eyebrow">Premium Clothing Manufacturer</p>
+    <h1 class="hero-title">Crafted with<br><em>precision,</em><br>built to last.</h1>
+    <p class="hero-sub">SR Creation is a trusted garment manufacturing partner — from concept sketches to finished bulk orders, we handle every stitch with care.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-p">Request a Sample</a>
+      <a href="#services" class="btn-o">Our Services</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-text">SR</div>
+    <div class="hero-center">
+      <div class="gold-line"></div>
+      <p class="hero-tagline">Where fabric meets craftsmanship</p>
+      <div class="gold-line"></div>
+    </div>
+    <div class="hero-badge"><p>Since<br>2010<br>—<br>Quality</p></div>
+  </div>
+</section>
+<div class="stats">
+  <div class="stat"><span class="stat-n">500+</span><span class="stat-l">Brands Served</span></div>
+  <div class="stat"><span class="stat-n">15+</span><span class="stat-l">Years in Industry</span></div>
+  <div class="stat"><span class="stat-n">50K+</span><span class="stat-l">Units / Month</span></div>
+  <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Quality Assured</span></div>
+</div>
+<section class="sec" id="services">
+  <p class="sec-label">What we do</p>
+  <h2 class="sec-title">Manufacturing services<br>tailored to your brand</h2>
+  <div class="svc-grid">
+    <div class="svc-card"><p class="svc-num">01</p><p class="svc-name">Custom Design & Sampling</p><p class="svc-text">From mood board to prototype. We develop samples based on your design briefs, swatches, or tech packs before production begins.</p></div>
+    <div class="svc-card"><p class="svc-num">02</p><p class="svc-name">Bulk Manufacturing</p><p class="svc-text">Scalable production from small batches to large orders — shirts, trousers, dresses, activewear, ethnic wear, and more.</p></div>
+    <div class="svc-card"><p class="svc-num">03</p><p class="svc-name">Fabric Sourcing</p><p class="svc-text">Wide network of fabric mills. We source cotton, linen, silk, lycra, denim, and specialty materials at competitive prices.</p></div>
+    <div class="svc-card"><p class="svc-num">04</p><p class="svc-name">Private Label & Branding</p><p class="svc-text">Add your labels, tags, hangtags, and packaging. Full white-label manufacturing for D2C and retail brands.</p></div>
+    <div class="svc-card"><p class="svc-num">05</p><p class="svc-name">Quality Control</p><p class="svc-text">Every batch undergoes in-house QC inspection — stitching, measurements, finishing, and packing verified before dispatch.</p></div>
+    <div class="svc-card"><p class="svc-num">06</p><p class="svc-name">Export & Logistics</p><p class="svc-text">Timely delivery across India and international markets. We manage documentation, packing, and freight coordination.</p></div>
+  </div>
+</section>
+<section class="sec sec-dark" id="process">
+  <p class="sec-label">How it works</p>
+  <h2 class="sec-title">From inquiry to delivery<br>in four steps</h2>
+  <div class="process-steps">
+    <div class="step"><div class="step-c">1</div><p class="step-t">Share Requirements</p><p class="step-d">Send your design files, fabric preferences, quantities, and target price. We revert within 24 hours.</p></div>
+    <div class="step"><div class="step-c">2</div><p class="step-t">Sample & Approval</p><p class="step-d">We create a physical sample. Review, request changes, and approve before bulk production starts.</p></div>
+    <div class="step"><div class="step-c">3</div><p class="step-t">Production</p><p class="step-d">Full-scale cutting, stitching, and finishing — with regular progress updates throughout.</p></div>
+    <div class="step"><div class="step-c">4</div><p class="step-t">Delivery</p><p class="step-d">QC-cleared goods are packed and dispatched to your address — on time, every time.</p></div>
+  </div>
+</section>
+<section class="sec sec-alt" id="categories">
+  <p class="sec-label">Product Range</p>
+  <h2 class="sec-title">What we manufacture</h2>
+  <div class="cat-grid">
+    <div class="cat-card"><span class="cat-icon">👔</span><p class="cat-name">Formals & Shirts</p><p class="cat-note">Corporate, dress, casual</p></div>
+    <div class="cat-card"><span class="cat-icon">👗</span><p class="cat-name">Women's Wear</p><p class="cat-note">Kurtas, dresses, tops</p></div>
+    <div class="cat-card"><span class="cat-icon">🧥</span><p class="cat-name">Outerwear</p><p class="cat-note">Jackets, blazers, coats</p></div>
+    <div class="cat-card"><span class="cat-icon">🩱</span><p class="cat-name">Activewear</p><p class="cat-note">Sportswear, athleisure</p></div>
+    <div class="cat-card"><span class="cat-icon">🥻</span><p class="cat-name">Ethnic Wear</p><p class="cat-note">Sarees, lehengas, sherwanis</p></div>
+    <div class="cat-card"><span class="cat-icon">👖</span><p class="cat-name">Bottoms</p><p class="cat-note">Trousers, jeans, palazzos</p></div>
+    <div class="cat-card"><span class="cat-icon">🎽</span><p class="cat-name">T-Shirts & Polos</p><p class="cat-note">Printed, plain, embroidered</p></div>
+    <div class="cat-card"><span class="cat-icon">🧒</span><p class="cat-name">Kids' Wear</p><p class="cat-note">Casual, school, occasion</p></div>
+  </div>
+</section>
+<section class="sec" id="about">
+  <div class="why-grid">
+    <div>
+      <p class="sec-label">Why SR Creation</p>
+      <h2 class="sec-title">A manufacturing partner<br>you can rely on</h2>
+      <div class="why-points">
+        <div class="why-pt"><div class="why-dot"></div><div><p class="why-pt-t">Low Minimum Order Quantities</p><p class="why-pt-d">Flexible MOQs for startups and established brands alike. Test the market without committing to thousands of units.</p></div></div>
+        <div class="why-pt"><div class="why-dot"></div><div><p class="why-pt-t">On-Time Delivery, Every Time</p><p class="why-pt-d">Production schedules tracked closely so your goods arrive exactly when you need them — no delays.</p></div></div>
+        <div class="why-pt"><div class="why-dot"></div><div><p class="why-pt-t">Transparent Communication</p><p class="why-pt-d">Regular updates via WhatsApp and email. You know exactly where your order stands at every stage.</p></div></div>
+        <div class="why-pt"><div class="why-dot"></div><div><p class="why-pt-t">End-to-End Capability</p><p class="why-pt-d">Fabric sourcing, cutting, stitching, printing, embroidery, packaging — everything under one roof.</p></div></div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <p class="why-quote">"Quality is not an act — it is a habit built stitch by stitch, order by order."</p>
+      <p class="why-cite">— SR Creation, est. 2010</p>
+    </div>
+  </div>
+</section>
+<section class="sec sec-dark" id="contact">
+  <div class="contact-grid">
+    <div>
+      <p class="sec-label">Get in touch</p>
+      <h2 class="sec-title">Let's build your<br>collection together</h2>
+      <p class="sec-desc">Share your requirements and we'll get back to you within 24 hours with a quote and timeline.</p>
+      <div class="contact-info">
+        <div class="c-info-item"><strong>Location</strong>Surat, Gujarat, India</div>
+        <div class="c-info-item"><strong>Email</strong>info@srcreation.in</div>
+        <div class="c-info-item"><strong>Phone / WhatsApp</strong>+91 98765 43210</div>
+        <div class="c-info-item"><strong>Working Hours</strong>Mon – Sat, 9:00 AM – 7:00 PM IST</div>
+      </div>
+    </div>
+    <div>
+      <div id="form-msg" class="form-msg"></div>
+      <div class="form-wrap">
+        <div class="form-row2">
+          <div class="fg"><label>Your Name *</label><input type="text" id="f-name" placeholder="Ravi Mehta"></div>
+          <div class="fg"><label>Company / Brand</label><input type="text" id="f-company" placeholder="Your Brand"></div>
+        </div>
+        <div class="form-row2">
+          <div class="fg"><label>Phone / WhatsApp *</label><input type="tel" id="f-phone" placeholder="+91 98XXX XXXXX"></div>
+          <div class="fg"><label>Email</label><input type="email" id="f-email" placeholder="you@brand.com"></div>
+        </div>
+        <div class="fg">
+          <label>Product Category</label>
+          <select id="f-category">
+            <option value="">Select a category</option>
+            <option>Formals</option><option>Womens Wear</option><option>Activewear</option>
+            <option>Ethnic Wear</option><option>Bottoms</option><option>T-Shirts</option>
+            <option>Kids Wear</option><option>Outerwear</option><option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label>Tell us about your order</label><textarea id="f-message" placeholder="Describe your requirement — fabric, style, quantity, deadline..."></textarea></div>
+        <button class="btn-p" style="width:100%;padding:1rem;font-size:0.85rem;justify-content:center" onclick="submitInquiry()">Send Inquiry →</button>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <a href="#" class="nav-logo" style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:rgba(255,255,255,0.6)">SR <span style="color:#b8922a">Creation</span></a>
+  <p>© 2025 SR Creation. All rights reserved. · Surat, Gujarat, India</p>
+  <a href="/admin">Admin Login</a>
+</footer>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20);});
+function toggleNav(){document.getElementById('nav-links').classList.toggle('open');}
+document.querySelectorAll('.nav-links a').forEach(a=>{a.addEventListener('click',()=>document.getElementById('nav-links').classList.remove('open'));});
+async function submitInquiry(){
+  const name=document.getElementById('f-name').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();
+  const msgEl=document.getElementById('form-msg');
+  if(!name||!phone){msgEl.textContent='Please fill in your name and phone number.';msgEl.className='form-msg error';return;}
+  const payload={name,company:document.getElementById('f-company').value,phone,email:document.getElementById('f-email').value,category:document.getElementById('f-category').value,message:document.getElementById('f-message').value};
+  try{
+    const res=await fetch('/api/inquiries/public',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error);
+    msgEl.textContent='✓ Inquiry submitted! We will get back to you within 24 hours.';
+    msgEl.className='form-msg success';
+    ['f-name','f-company','f-phone','f-email','f-message'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('f-category').selectedIndex=0;
+  }catch(e){msgEl.textContent='Something went wrong. Please call us directly.';msgEl.className='form-msg error';}
+}
+</script>
+</body>
+</html>
